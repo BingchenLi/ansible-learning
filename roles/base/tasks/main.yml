@@ -1,0 +1,47 @@
+---
+- name: Upgrade all packages
+  yum: 
+    name: '*'
+    state: latest
+
+- name: Install Server Basics
+  yum: 
+    name:
+      - curl
+      - vim
+      - git
+      - unzip
+      - htop
+      - tmux
+      - yum-cron
+    state: present
+
+- name: Start yum-cron
+  shell: |
+    systemctl enable yum-cron.service
+    systemctl start yum-cron.service
+    systemctl status yum-cron.service
+
+- name: Add automatically update yum-cron
+  copy: 
+    src: /Users/bli/Desktop/ansible-training/roles/base/files/yum-cron.conf
+    dest: /etc/yum/
+    owner: root 
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Add automatically update yum-cron-hourly
+  copy: 
+    src: /Users/bli/Desktop/ansible-training/roles/base/files/yum-cron-hourly.conf
+    dest: /etc/yum/
+    owner: root 
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Add automatically update yum-cron-hourly
+  copy: 
+    src: /Users/bli/Desktop/ansible-training/roles/base/files/0yum-daily.cron
+    dest: /etc/cron.daily/
+    owner: root 
+    group: root
+    mode: u=x,g=rx,o=rwx

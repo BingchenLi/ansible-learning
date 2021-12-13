@@ -1,0 +1,6 @@
+### Ansible ###
+*.retry
+
+.DS_Store
+.idea
+._*
